@@ -1,0 +1,4 @@
+user-agent: *
+disallow: /login
+disallow: /login/
+disallow: /login/index.html

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <!--charset-->
+        <meta charset="utf-8">
+
+        <!--browser seetings-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width">
+
+        <!--styles -->
+        <link rel="stylesheet" href="/assets/css/styles.css">
+        <link rel="stylesheet" href="/assets/css/baguette.css">
+
+        <!--favicon // https://realfavicongenerator.net-->
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#515151">
+        <meta name="msapplication-TileColor" content="#5930e6">
+        <meta name="theme-color" content="#ffffff">
+
+        <!--seo-->
+        <meta name="description" content="website of german photographer jonas pardeyke. client login.">
+        <meta name="author" content="Jonas Pardeyke">
+
+        <meta name="google" content="nositelinkssearchbox">
+        <meta name="google" content="notranslate">
+
+        <title>pardeyke.com - login</title>
+
+        <!--jsFrameworks-->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="/assets/js/baguette.min.js" async></script>
+    </head>
+    
+    <body id="full-bg">
+        
+            <div id="logo-container">
+                <a href="../"><img id="logo" src=/assets/logo/logo.svg style="filter: invert(); padding: 10px;"></a>
+            </div>
+        
+        <div id="log-window">
+      
+        <span id="login-cap">Login</span><br>
+        
+        <span>Please enter your code.</span>
+        
+        <div id="input-div">
+        
+            <nobr>
+               
+                <input id="pdcl-input" type="password" placeholder="Code" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Zugangscode'">
+
+                <button id="pdcl-button">Login</button>
+                
+            </nobr>
+                
+        </div>
+        
+        <nobr>
+        
+            <span id="pdcl-response"></span>
+            
+        </nobr>
+
+    </div>
+        
+        <script>
+$(document).ready(function() {
+    
+    $('#pdcl-button').on('click', function(){
+
+        var onComplete = function(response){
+
+            if(response.client_url){
+                window.location.href = response.client_url;
+            }
+
+            else if(response.error){
+                $('#pdcl-response').text(response.error.message);
+            }
+        };
+
+        $.ajax({
+            url:            'https://www.picdrop.de/api/alpha/clientlogin',
+            type:           'POST',
+            data:           JSON.stringify({
+                'domain_uuid':'58f081f64776ca9c241ead8dad2e84e8',
+                'client_key':$('#pdcl-input').val()
+            }),
+            contentType:    'text/plain; charset=UTF-8',
+            dataType:       'json',
+            success:        onComplete
+        });
+        
+    });
+    
+});
+
+
+var input = document.getElementById("pdcl-input");
+
+input.addEventListener("keyup", function(event) {
+ 
+    if (event.keyCode === 13) {
+
+        event.preventDefault();
+
+        document.getElementById("pdcl-button").click();
+    }
+});
+</script>
+        <script>
+        $(document).ready(function() {
+    $("#pdcl-button").on("click", function() {
+        $.ajax({
+            url: "https://www.picdrop.de/api/alpha/clientlogin",
+            type: "POST",
+            data: JSON.stringify({
+                domain_uuid: "58f081f64776ca9c241ead8dad2e84e8",
+                client_key: $("#pdcl-input").val()
+            }),
+            contentType: "text/plain; charset=UTF-8",
+            dataType: "json",
+            success: function(e) {
+                e.client_url ? window.location.href = e.client_url : e.error && $("#pdcl-response").text(e.error.message)
+            }
+        })
+    })
+});
+var input = document.getElementById("pdcl-input");
+input.addEventListener("keyup", function(e) {
+    13 === e.keyCode && (e.preventDefault(), document.getElementById("pdcl-button").click())
+});
+</script>
+        <script>
+
+        </script>
+    </body>
+    
+</html>
